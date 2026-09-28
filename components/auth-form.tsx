@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
@@ -49,7 +50,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           </form>
         ) : (
           <Button className="min-h-10 w-full rounded-xl text-sm" disabled={pending} onClick={handleGoogleAuth} type="button">
-            <span aria-hidden="true" className="grid size-5 place-items-center rounded-full border border-border text-xs font-semibold">G</span>
+            <Image alt="" aria-hidden="true" className="size-5" height={20} src="/icons/google.png" width={20} />
             {pending ? 'Connecting…' : 'Continue with Google'}
           </Button>
         )}
