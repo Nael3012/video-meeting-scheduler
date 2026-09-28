@@ -133,13 +133,13 @@ export default function Page() {
       </section>
 
       <nav aria-label="Primary navigation" className="fixed inset-x-2 bottom-2 z-10 mx-auto flex max-w-md items-center gap-0 rounded-3xl border border-border bg-card/95 p-1 shadow-lg backdrop-blur sm:inset-x-4 sm:p-2">
-        <Button aria-current="page" className="min-h-12 min-w-0 flex-1 flex-col gap-0 rounded-2xl px-0 text-[9px] tracking-tight sm:gap-1 sm:px-2 sm:text-xs" variant="ghost">
-          <Home aria-hidden="true" data-icon="inline-start" />
-          Home
-        </Button>
-        <Button className="min-h-12 min-w-0 flex-1 flex-col gap-0 rounded-2xl px-0 text-[9px] tracking-tight sm:gap-1 sm:px-2 sm:text-xs" variant="ghost">
+        <Button className="min-h-12 min-w-0 flex-1 flex-col gap-0 rounded-2xl px-0 text-[10px] tracking-tight sm:gap-1 sm:px-2 sm:text-xs" variant="ghost">
           <CalendarDays aria-hidden="true" data-icon="inline-start" />
           Plan
+        </Button>
+        <Button aria-current="page" className="min-h-12 min-w-0 flex-1 flex-col gap-0 rounded-none px-0 text-[10px] tracking-tight sm:gap-1 sm:px-2 sm:text-xs" variant="ghost">
+          <Home aria-hidden="true" data-icon="inline-start" />
+          Home
         </Button>
         <Button className="min-h-12 min-w-0 flex-1 flex-col gap-0 rounded-2xl px-0 text-[9px] tracking-tight sm:gap-1 sm:px-2 sm:text-xs" variant="ghost">
           <Bell aria-hidden="true" data-icon="inline-start" />
