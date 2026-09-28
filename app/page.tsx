@@ -7,7 +7,7 @@ import { useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 type Platform = 'Android' | 'iOS' | 'Windows' | 'macOS'
 
@@ -61,21 +61,23 @@ export default function Page() {
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium" htmlFor="operating-system">Operating system</label>
               <Select value={platform} onValueChange={(value) => setPlatform(value as Platform)}>
-                <SelectTrigger className="min-h-14 rounded-2xl" id="operating-system">
+                <SelectTrigger className="min-h-14 w-full rounded-2xl" id="operating-system">
                   <div className="flex items-center gap-3">
                     <PlatformIcon aria-hidden="true" />
                     <SelectValue placeholder="Choose your OS" />
                   </div>
                 </SelectTrigger>
                 <SelectContent>
-                  {platforms.map((item) => {
-                    const Icon = item.icon
-                    return (
-                      <SelectItem key={item.name} value={item.name}>
-                        <span className="flex items-center gap-2"><Icon aria-hidden="true" />{item.name} <span className="text-muted-foreground">· {item.label}</span></span>
-                      </SelectItem>
-                    )
-                  })}
+                  <SelectGroup>
+                    {platforms.map((item) => {
+                      const Icon = item.icon
+                      return (
+                        <SelectItem key={item.name} value={item.name}>
+                          <span className="flex items-center gap-2"><Icon aria-hidden="true" />{item.name} <span className="text-muted-foreground">· {item.label}</span></span>
+                        </SelectItem>
+                      )
+                    })}
+                  </SelectGroup>
                 </SelectContent>
               </Select>
             </div>
