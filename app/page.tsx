@@ -105,8 +105,8 @@ export default function Page() {
       <section className="mx-auto flex w-full max-w-md min-w-0 flex-col gap-3">
         <header className="flex items-center justify-between px-1">
           <div className="flex items-center gap-2.5">
-            <div className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-              <Video aria-hidden="true" />
+            <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+              <Video aria-hidden="true" className="size-4" />
             </div>
             <div>
               <p className="font-semibold tracking-tight">Kite</p>
@@ -119,16 +119,16 @@ export default function Page() {
         <section aria-labelledby="meeting-title" className="flex min-w-0 flex-col gap-3 border-y border-border py-4">
           <header className="flex flex-col gap-2">
             <Badge className="w-fit" variant="outline">Next meeting</Badge>
-            <h1 id="meeting-title" className="text-xl font-semibold tracking-tight text-balance">Design sync with the product team</h1>
-            <p className="text-sm leading-5 text-muted-foreground">Choose your OS to open Zoom and your calendar with the right native flow.</p>
+            <h1 id="meeting-title" className="text-lg font-semibold tracking-tight text-balance">Design sync with the product team</h1>
+            <p className="text-xs leading-4 text-muted-foreground">Choose your OS to open Zoom and your calendar with the right native flow.</p>
           </header>
 
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between rounded-xl bg-muted p-3">
               <div className="flex items-center gap-3">
-                <CalendarDays aria-hidden="true" className="text-muted-foreground" />
+                <CalendarDays aria-hidden="true" className="size-4 text-muted-foreground" />
                 <div>
-                  <p className="text-sm font-medium">Today, 10:30 AM</p>
+                  <p className="text-xs font-medium">Today, 10:30 AM</p>
                   <p className="text-xs text-muted-foreground">45 minutes · {meetingPlatform}</p>
                 </div>
               </div>
@@ -138,9 +138,9 @@ export default function Page() {
             <div className="flex flex-col gap-2">
               <label className="text-xs font-medium" htmlFor="operating-system">Operating system</label>
               <Select value={platform} onValueChange={(value) => { setPlatform(value as Platform); setJoined(false) }}>
-                <SelectTrigger className="min-h-12 w-full rounded-xl" id="operating-system">
-                  <div className="flex items-center gap-3">
-                    <PlatformIcon aria-hidden="true" />
+                <SelectTrigger className="min-h-11 w-full rounded-xl text-xs" id="operating-system">
+                  <div className="flex items-center gap-2">
+                    <PlatformIcon aria-hidden="true" className="size-4" />
                     <SelectValue placeholder="Choose your OS" />
                   </div>
                 </SelectTrigger>
@@ -163,9 +163,9 @@ export default function Page() {
               <label className="text-xs font-medium" htmlFor="calendar-sync">Calendar access</label>
               <p className="text-xs text-muted-foreground">{selectedFlow.calendar} · {selectedFlow.openLabel}</p>
               <Select value={calendarSync} onValueChange={(value) => setCalendarSync(value as CalendarSync)}>
-                <SelectTrigger className="min-h-12 w-full rounded-xl" id="calendar-sync">
-                  <div className="flex items-center gap-3">
-                    <CalendarDays aria-hidden="true" className="text-muted-foreground" />
+                <SelectTrigger className="min-h-11 w-full rounded-xl text-xs" id="calendar-sync">
+                  <div className="flex items-center gap-2">
+                    <CalendarDays aria-hidden="true" className="size-4 text-muted-foreground" />
                     <SelectValue placeholder="Choose calendar" />
                   </div>
                 </SelectTrigger>
@@ -187,9 +187,9 @@ export default function Page() {
             <div className="flex flex-col gap-2">
               <label className="text-xs font-medium" htmlFor="meeting-platform">Meeting platform</label>
               <Select value={meetingPlatform} onValueChange={(value) => { setMeetingPlatform(value as MeetingPlatform); setJoined(false) }}>
-                <SelectTrigger className="min-h-12 w-full rounded-xl" id="meeting-platform">
-                  <div className="flex items-center gap-3">
-                    <Video aria-hidden="true" className="text-muted-foreground" />
+                <SelectTrigger className="min-h-11 w-full rounded-xl text-xs" id="meeting-platform">
+                  <div className="flex items-center gap-2">
+                    <Video aria-hidden="true" className="size-4 text-muted-foreground" />
                     <SelectValue placeholder="Choose meeting platform" />
                   </div>
                 </SelectTrigger>
@@ -212,7 +212,7 @@ export default function Page() {
                   placeholder={selectedFlow.linkHint}
                   value={meetingLink}
                   onChange={(event) => { setMeetingLink(event.target.value); setJoined(false) }}
-                  className="min-h-12 w-full rounded-xl px-3 pr-14 text-sm"
+                  className="min-h-11 w-full rounded-xl px-3 pr-12 text-xs"
                 />
                 <Button
                   type="button"
@@ -223,7 +223,7 @@ export default function Page() {
                   className="absolute right-1 top-1/2 size-12 -translate-y-1/2 rounded-xl"
                   onClick={() => pasteInto(setMeetingLink)}
                 >
-                  <ClipboardPaste aria-hidden="true" />
+                  <ClipboardPaste aria-hidden="true" className="size-4" />
                 </Button>
               </div>
             </div>
@@ -239,7 +239,7 @@ export default function Page() {
                   placeholder="Enter meeting passcode"
                   value={passcode}
                   onChange={(event) => { setPasscode(event.target.value); setJoined(false) }}
-                  className="min-h-12 w-full rounded-xl px-3 pr-14 text-sm"
+                  className="min-h-11 w-full rounded-xl px-3 pr-12 text-xs"
                 />
                 <Button
                   type="button"
@@ -250,7 +250,7 @@ export default function Page() {
                   className="absolute right-1 top-1/2 size-12 -translate-y-1/2 rounded-xl"
                   onClick={() => pasteInto(setPasscode)}
                 >
-                  <ClipboardPaste aria-hidden="true" />
+                  <ClipboardPaste aria-hidden="true" className="size-4" />
                 </Button>
               </div>
             </div>
@@ -260,10 +260,10 @@ export default function Page() {
               <Popover>
                 <PopoverTrigger
                   id="meeting-date"
-                  className="flex min-h-14 w-full items-center justify-between rounded-2xl border border-input bg-background px-4 text-left text-sm font-normal text-foreground shadow-xs transition-colors outline-none hover:bg-accent hover:text-accent-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+                  className="flex min-h-11 w-full items-center justify-between rounded-xl border border-input bg-background px-3 text-left text-xs font-normal text-foreground shadow-xs transition-colors outline-none hover:bg-accent hover:text-accent-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
                 >
                   <span className="flex items-center gap-3">
-                    <CalendarDays aria-hidden="true" className="text-muted-foreground" />
+                    <CalendarDays aria-hidden="true" className="size-4 text-muted-foreground" />
                     {format(meetingDate, 'EEE, MMM d, yyyy')}
                   </span>
                   <ChevronDown aria-hidden="true" />
@@ -353,19 +353,19 @@ export default function Page() {
 
       <nav aria-label="Primary navigation" className="fixed inset-x-2 bottom-2 z-10 mx-auto flex max-w-md items-center gap-0 rounded-3xl border border-border bg-card/95 p-1 shadow-lg backdrop-blur sm:inset-x-4 sm:p-2">
         <Button className="min-h-12 min-w-0 flex-1 flex-col gap-0 rounded-2xl px-0 text-[10px] tracking-tight sm:gap-1 sm:px-2 sm:text-[10px]" variant="ghost">
-          <CalendarDays aria-hidden="true" data-icon="inline-start" />
+          <CalendarDays aria-hidden="true" className="size-4" data-icon="inline-start" />
           Plan
         </Button>
         <Button aria-current="page" className="min-h-12 min-w-0 flex-1 flex-col gap-0 rounded-none px-0 text-[10px] tracking-tight sm:gap-1 sm:px-2 sm:text-[10px]" variant="ghost">
-          <Home aria-hidden="true" data-icon="inline-start" />
+          <Home aria-hidden="true" className="size-4" data-icon="inline-start" />
           Home
         </Button>
         <Button className="min-h-12 min-w-0 flex-1 flex-col gap-0 rounded-2xl px-0 text-[10px] tracking-tight sm:gap-1 sm:px-2 sm:text-[10px]" variant="ghost">
-          <Bell aria-hidden="true" data-icon="inline-start" />
+          <Bell aria-hidden="true" className="size-4" data-icon="inline-start" />
           Alerts
         </Button>
         <Button render={<Link href="/account" />} className="min-h-12 min-w-0 flex-1 flex-col gap-0 rounded-2xl px-0 text-[10px] tracking-tight sm:gap-1 sm:px-2 sm:text-[10px]" variant="ghost">
-          <Settings aria-hidden="true" data-icon="inline-start" />
+          <Settings aria-hidden="true" className="size-4" data-icon="inline-start" />
           Account
         </Button>
       </nav>
