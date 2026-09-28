@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { CalendarDays, Check, ChevronDown, Laptop, Monitor, Smartphone, Tablet, Video } from 'lucide-react'
+import { Bell, CalendarDays, Check, ChevronDown, Home, Laptop, Monitor, Settings, Smartphone, Tablet, Video } from 'lucide-react'
 import { useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
@@ -25,9 +25,9 @@ export default function Page() {
   const PlatformIcon = selected.icon
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-background px-4 py-6 text-foreground">
-      <section className="flex w-full max-w-md flex-col gap-5">
-        <header className="flex items-center justify-between">
+    <main className="min-h-screen bg-background px-3 pb-24 pt-4 text-foreground sm:px-4 sm:py-6">
+      <section className="mx-auto flex w-full max-w-md flex-col gap-5">
+        <header className="flex items-center justify-between px-1">
           <div className="flex items-center gap-3">
             <div className="flex size-10 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
               <Video aria-hidden="true" />
@@ -98,8 +98,27 @@ export default function Page() {
           </CardContent>
         </Card>
 
-        <p className="text-center text-xs leading-5 text-muted-foreground">Your selection only controls how the meeting opens on this device.</p>
+        <p className="px-2 text-center text-xs leading-5 text-muted-foreground">Your selection only controls how the meeting opens on this device.</p>
       </section>
+
+      <nav aria-label="Primary navigation" className="fixed inset-x-2 bottom-2 z-10 mx-auto flex max-w-md items-center gap-0 rounded-3xl border border-border bg-card/95 p-1 shadow-lg backdrop-blur sm:inset-x-4 sm:p-2">
+        <Button aria-current="page" className="min-h-12 min-w-0 flex-1 flex-col gap-0 rounded-2xl px-0 text-[9px] tracking-tight sm:gap-1 sm:px-2 sm:text-xs" variant="ghost">
+          <Home aria-hidden="true" data-icon="inline-start" />
+          Home
+        </Button>
+        <Button className="min-h-12 min-w-0 flex-1 flex-col gap-0 rounded-2xl px-0 text-[9px] tracking-tight sm:gap-1 sm:px-2 sm:text-xs" variant="ghost">
+          <CalendarDays aria-hidden="true" data-icon="inline-start" />
+          Plan
+        </Button>
+        <Button className="min-h-12 min-w-0 flex-1 flex-col gap-0 rounded-2xl px-0 text-[9px] tracking-tight sm:gap-1 sm:px-2 sm:text-xs" variant="ghost">
+          <Bell aria-hidden="true" data-icon="inline-start" />
+          Alerts
+        </Button>
+        <Button className="min-h-12 min-w-0 flex-1 flex-col gap-0 rounded-2xl px-0 text-[9px] tracking-tight sm:gap-1 sm:px-2 sm:text-xs" variant="ghost">
+          <Settings aria-hidden="true" data-icon="inline-start" />
+          More
+        </Button>
+      </nav>
     </main>
   )
 }
