@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 type Platform = 'Android' | 'iOS' | 'Windows' | 'macOS'
+type CalendarSync = 'Google Calendar' | 'Local Calendar'
 
 const platforms: { name: Platform; label: string; icon: typeof Smartphone }[] = [
   { name: 'Android', label: 'Android phone', icon: Smartphone },
@@ -18,8 +19,14 @@ const platforms: { name: Platform; label: string; icon: typeof Smartphone }[] = 
   { name: 'macOS', label: 'Mac computer', icon: Laptop },
 ]
 
+const calendarOptions: { name: CalendarSync; label: string }[] = [
+  { name: 'Google Calendar', label: 'Sync across devices' },
+  { name: 'Local Calendar', label: 'Use the built-in calendar' },
+]
+
 export default function Page() {
   const [platform, setPlatform] = useState<Platform>('Android')
+  const [calendarSync, setCalendarSync] = useState<CalendarSync>('Google Calendar')
   const [joined, setJoined] = useState(false)
   const selected = platforms.find((item) => item.name === platform) ?? platforms[0]
   const PlatformIcon = selected.icon
@@ -82,11 +89,35 @@ export default function Page() {
               </Select>
             </div>
 
-            <motion.div key={platform} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="flex items-start gap-3 rounded-2xl border border-border bg-background p-4">
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium" htmlFor="calendar-sync">Calendar access</label>
+              <Select value={calendarSync} onValueChange={(value) => setCalendarSync(value as CalendarSync)}>
+                <SelectTrigger className="min-h-14 w-full rounded-2xl" id="calendar-sync">
+                  <div className="flex items-center gap-3">
+                    <CalendarDays aria-hidden="true" className="text-muted-foreground" />
+                    <SelectValue placeholder="Choose calendar" />
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {calendarOptions.map((item) => (
+                      <SelectItem key={item.name} value={item.name}>
+                        <span className="flex flex-col items-start gap-0.5">
+                          <span>{item.name}</span>
+                          <span className="text-xs text-muted-foreground">{item.label}</span>
+                        </span>
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <motion.div key={`${platform}-${calendarSync}`} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="flex items-start gap-3 rounded-2xl border border-border bg-background p-4">
               <PlatformIcon aria-hidden="true" className="mt-0.5 text-muted-foreground" />
               <div className="flex min-w-0 flex-1 flex-col gap-1">
                 <p className="text-sm font-medium">{selected.label}</p>
-                <p className="text-xs leading-5 text-muted-foreground">We&apos;ll use the {platform} calendar and Zoom app flow.</p>
+                <p className="text-xs leading-5 text-muted-foreground">{calendarSync} will open with the {platform} Zoom flow.</p>
               </div>
               <Check aria-hidden="true" className="text-muted-foreground" />
             </motion.div>
