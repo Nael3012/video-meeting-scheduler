@@ -87,6 +87,53 @@ export default function Page() {
     }
   })()
   const canJoin = isValidMeetingLink && passcode.trim().length > 0
+  const calendarTarget = calendarSync === 'Google Calendar'
+    ? 'Google Calendar'
+    : selectedFlow.nativeCalendar
+  const calendarActionLabel = joined ? 'Calendar event ready' : `Add to ${calendarTarget}`
+
+  function buildCalendarUrl() {
+    const start = new Date(meetingDate)
+    start.setHours(10, 30, 0, 0)
+    const end = new Date(start)
+    end.setMinutes(end.getMinutes() + 45)
+    const formatCalendarDate = (date: Date) => date.toISOString().replace(/[-:]/g, '').replace(/\\.\\d{3}Z$/, 'Z')
+    const startDate = formatCalendarDate(start)
+    const endDate = formatCalendarDate(end)
+    const recurrence = repeat === 'Does not repeat' ? '' : `RRULE:FREQ=${repeat === 'Every day' ? 'DAILY' : repeat === 'Every week' ? 'WEEKLY' : 'MONTHLY'}`
+    const details = `${meetingPlatform} meeting\\nJoin link: ${meetingLink.trim()}\\nPasscode: ${passcode.trim()}\\nReminder: ${reminder}`
+
+    if (calendarSync === 'Google Calendar') {
+      const params = new URLSearchParams({ action: 'TEMPLATE', text: `${meetingPlatform} meeting`, dates: `${startDate}/${endDate}`, details, location: meetingLink.trim() })
+      if (recurrence) params.set('recur', recurrence)
+      return `https://calendar.google.com/calendar/render?${params.toString()}`
+    }
+
+    if (platform === 'Windows') {
+      const params = new URLSearchParams({ subject: `${meetingPlatform} meeting`, startdt: start.toISOString(), enddt: end.toISOString(), body: details, location: meetingLink.trim() })
+      return `https://outlook.office.com/calendar/0/deeplink/compose?${params.toString()}`
+    }
+
+    const ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'BEGIN:VEVENT',
+      `DTSTART:${startDate}`,
+      `DTEND:${endDate}`,
+      `SUMMARY:${meetingPlatform} meeting`,
+      `DESCRIPTION:${details.replace(/\\n/g, '\\\\n')}`,
+      `LOCATION:${meetingLink.trim()}`,
+      recurrence ? recurrence : '',
+      'BEGIN:VALARM',
+      `TRIGGER:-PT${reminder === '10 minutes before' ? '10M' : reminder === '30 minutes before' ? '30M' : reminder === '1 hour before' ? '60M' : '0M'}`,
+      'ACTION:DISPLAY',
+      'DESCRIPTION:Meeting reminder',
+      'END:VALARM',
+      'END:VEVENT',
+      'END:VCALENDAR',
+    ].filter(Boolean).join('\\r\\n')
+    return `data:text/calendar;charset=utf-8,${encodeURIComponent(ics)}`
+  }
 
   async function pasteInto(setValue: (value: string) => void, resetJoined = true) {
     try {
@@ -333,10 +380,13 @@ export default function Page() {
             <Button
               className="min-h-12 w-full rounded-2xl"
               disabled={!canJoin}
-              onClick={() => setJoined(true)}
+              onClick={() => {
+                window.open(buildCalendarUrl(), '_blank', 'noopener,noreferrer')
+                setJoined(true)
+              }}
             >
-              {joined ? `${meetingPlatform} link ready` : `Join ${meetingPlatform} meeting`}
-              {!joined && <ChevronDown aria-hidden="true" data-icon="inline-end" />}
+              {calendarActionLabel}
+              {!joined && <CalendarDays aria-hidden="true" data-icon="inline-end" />}
             </Button>
             {!canJoin && (
               <p className="text-center text-xs text-muted-foreground">
