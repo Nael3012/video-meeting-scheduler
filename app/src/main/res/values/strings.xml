@@ -1,0 +1,83 @@
+<resources>
+    <string name="app_name">Kite</string>
+    <string name="app_subtitle">Join your Zoom meeting</string>
+    <string name="badge_today">Today</string>
+    <string name="brand_meetflow">Meetflow</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_schedule">Jadwal</string>
+    <string name="nav_alerts">Pemberitahuan</string>
+    <string name="nav_account">Akun</string>
+
+    <!-- Home Tab -->
+    <string name="home_overview_label">OVERVIEW</string>
+    <string name="home_title">Your meeting day</string>
+    <string name="home_calendar_title">Google Calendar</string>
+    <string name="home_calendar_subtitle">Sync is active</string>
+    <string name="home_create_schedule">Create new schedule</string>
+    <string name="home_empty_title">No scheduled meetings yet</string>
+    <string name="home_empty_subtitle">Create a new schedule to save to Cloud Firestore and sync with your calendar.</string>
+
+    <!-- Schedule Tab -->
+    <string name="schedule_next_badge">New schedule</string>
+    <string name="schedule_default_heading">Schedule a video meeting</string>
+    <string name="schedule_subtitle">Open your video meeting and calendar with the native Android flow.</string>
+    <string name="schedule_calendar_label">Calendar access</string>
+    <string name="schedule_platform_label">Meeting platform</string>
+    <string name="schedule_title_label">Meeting title</string>
+    <string name="schedule_title_placeholder">Enter meeting title</string>
+    <string name="schedule_link_label">Meeting link</string>
+    <string name="schedule_passcode_label">Passcode</string>
+    <string name="schedule_passcode_placeholder">Enter meeting passcode</string>
+    <string name="schedule_date_label">Meeting date</string>
+    <string name="schedule_repeat_label">Repeat</string>
+    <string name="schedule_reminder_label">Reminder</string>
+    <string name="schedule_paste_link">Paste meeting link</string>
+    <string name="schedule_paste_passcode">Paste passcode</string>
+    <string name="schedule_event_ready">Calendar event ready</string>
+    <string name="schedule_helper_empty">Add the meeting link and passcode to continue.</string>
+    <string name="schedule_footer_note">Your selection only controls how the meeting opens on this device.</string>
+
+    <!-- Alerts Tab -->
+    <string name="alerts_header_label">NOTIFICATIONS</string>
+    <string name="alerts_title">Stay ahead of your meetings</string>
+    <string name="alerts_empty_title">No active reminders</string>
+    <string name="alerts_empty_subtitle">Reminders for your scheduled meetings in Firestore will appear here.</string>
+    <string name="alerts_calendar_connected_title">Calendar account connected</string>
+    <string name="alerts_calendar_connected_subtitle">Google Calendar is ready to sync.</string>
+    <string name="alerts_calendar_disconnected_title">Google account not connected</string>
+    <string name="alerts_calendar_disconnected_subtitle">Sign in on the Akun tab to sync with Google Calendar and Cloud Firestore.</string>
+
+    <!-- Account & Auth -->
+    <string name="account_header_label">ACCOUNT</string>
+    <string name="account_connections_title">Calendar connections</string>
+    <string name="account_google_connected">Connected and syncing with Firestore</string>
+    <string name="account_google_not_signed_in">Sign in with Google to enable cloud sync</string>
+    <string name="account_status_active">Active</string>
+    <string name="account_status_signed_out">Signed out</string>
+    <string name="account_manage_button">Manage account</string>
+    <string name="account_sign_in_button">Sign in with Google</string>
+    <string name="account_page_title">Account</string>
+    <string name="account_sign_out">Sign out</string>
+    <string name="account_status_label">Account status</string>
+    <string name="account_calendar_sync_label">Calendar sync</string>
+    <string name="account_manage_on_home">Manage on Home</string>
+    <string name="auth_signin_headline">Your meetings, ready when you are.</string>
+    <string name="auth_signup_headline">Create your Meetflow account.</string>
+    <string name="auth_welcome_back">Sign in to Kite</string>
+    <string name="auth_signin_desc">Continue with your Google account (OAuth 2.0) or email to sync meetings with Cloud Firestore.</string>
+    <string name="auth_create_account_title">Create account</string>
+    <string name="auth_signup_desc">Sign up with Google OAuth or email &amp; password backed by Firebase Authentication.</string>
+    <string name="auth_continue_google">Continue with Google</string>
+    <string name="auth_connecting">Connecting…</string>
+    <string name="auth_name_placeholder">Your name</string>
+    <string name="auth_email_placeholder">Email address</string>
+    <string name="auth_password_placeholder">Password (min. 6 characters)</string>
+    <string name="auth_sign_in_email">Sign in with Email</string>
+    <string name="auth_sign_up_email">Create account</string>
+    <string name="auth_new_here">New here?</string>
+    <string name="auth_create_account">Create an account</string>
+    <string name="auth_already_have_account">Already have an account?</string>
+    <string name="auth_sign_in_link">Sign in</string>
+</resources>

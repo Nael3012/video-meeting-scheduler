@@ -1,0 +1,6 @@
+{
+  "name": "Kite",
+  "description": "Schedule video meetings and keep your day moving with Kite.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
