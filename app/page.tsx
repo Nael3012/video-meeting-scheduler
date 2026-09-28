@@ -9,11 +9,13 @@ import { Badge } from '@/components/ui/badge'
 import { Calendar } from '@/components/ui/calendar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 type Platform = 'Android' | 'iOS' | 'Windows' | 'macOS'
 type CalendarSync = 'Google Calendar' | 'Local Calendar'
+type MeetingPlatform = 'Zoom' | 'Google Meet' | 'Microsoft Teams'
 type RepeatOption = 'Does not repeat' | 'Every day' | 'Every week' | 'Every month'
 type ReminderOption = 'At time of meeting' | '10 minutes before' | '30 minutes before' | '1 hour before'
 
@@ -29,15 +31,21 @@ const calendarOptions: { name: CalendarSync; label: string }[] = [
   { name: 'Local Calendar', label: 'Use the built-in calendar' },
 ]
 
+const meetingPlatforms: MeetingPlatform[] = ['Zoom', 'Google Meet', 'Microsoft Teams']
+
 export default function Page() {
   const [platform, setPlatform] = useState<Platform>('Android')
   const [calendarSync, setCalendarSync] = useState<CalendarSync>('Google Calendar')
+  const [meetingPlatform, setMeetingPlatform] = useState<MeetingPlatform>('Zoom')
+  const [meetingLink, setMeetingLink] = useState('')
+  const [passcode, setPasscode] = useState('')
   const [meetingDate, setMeetingDate] = useState<Date>(new Date())
   const [repeat, setRepeat] = useState<RepeatOption>('Does not repeat')
   const [reminder, setReminder] = useState<ReminderOption>('10 minutes before')
   const [joined, setJoined] = useState(false)
   const selected = platforms.find((item) => item.name === platform) ?? platforms[0]
   const PlatformIcon = selected.icon
+  const canJoin = meetingLink.trim().length > 0 && passcode.trim().length > 0
 
   return (
     <main className="min-h-screen bg-background px-3 pb-24 pt-4 text-foreground sm:px-4 sm:py-6">
@@ -67,7 +75,7 @@ export default function Page() {
                 <CalendarDays aria-hidden="true" className="text-muted-foreground" />
                 <div>
                   <p className="text-sm font-medium">Today, 10:30 AM</p>
-                  <p className="text-xs text-muted-foreground">45 minutes · Zoom</p>
+                  <p className="text-xs text-muted-foreground">45 minutes · {meetingPlatform}</p>
                 </div>
               </div>
               <Badge variant="secondary">In 24 min</Badge>
@@ -119,6 +127,51 @@ export default function Page() {
                   </SelectGroup>
                 </SelectContent>
               </Select>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium" htmlFor="meeting-platform">Meeting platform</label>
+              <Select value={meetingPlatform} onValueChange={(value) => { setMeetingPlatform(value as MeetingPlatform); setJoined(false) }}>
+                <SelectTrigger className="min-h-14 w-full rounded-2xl" id="meeting-platform">
+                  <div className="flex items-center gap-3">
+                    <Video aria-hidden="true" className="text-muted-foreground" />
+                    <SelectValue placeholder="Choose meeting platform" />
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {meetingPlatforms.map((item) => (
+                      <SelectItem key={item} value={item}>{item}</SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium" htmlFor="meeting-link">Meeting link</label>
+              <Input
+                id="meeting-link"
+                type="url"
+                placeholder={`Paste your ${meetingPlatform} link`}
+                value={meetingLink}
+                onChange={(event) => { setMeetingLink(event.target.value); setJoined(false) }}
+                className="min-h-14 rounded-2xl px-4"
+              />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium" htmlFor="meeting-passcode">Passcode</label>
+              <Input
+                id="meeting-passcode"
+                type="text"
+                inputMode="text"
+                autoComplete="off"
+                placeholder="Enter meeting passcode"
+                value={passcode}
+                onChange={(event) => { setPasscode(event.target.value); setJoined(false) }}
+                className="min-h-14 rounded-2xl px-4"
+              />
             </div>
 
             <div className="flex flex-col gap-2">
@@ -190,16 +243,21 @@ export default function Page() {
               <PlatformIcon aria-hidden="true" className="mt-0.5 text-muted-foreground" />
               <div className="flex min-w-0 flex-1 flex-col gap-1">
                 <p className="text-sm font-medium">{selected.label}</p>
-                <p className="text-xs leading-5 text-muted-foreground">{calendarSync} will open with the {platform} Zoom flow on {format(meetingDate, 'MMM d')}.</p>
+                <p className="text-xs leading-5 text-muted-foreground">{calendarSync} will open with the {platform}{' '}{meetingPlatform} flow on {format(meetingDate, 'MMM d')}.</p>
                 <p className="text-xs leading-5 text-muted-foreground">{repeat} · Reminder {reminder.toLowerCase()}.</p>
               </div>
               <Check aria-hidden="true" className="text-muted-foreground" />
             </motion.div>
 
-            <Button className="min-h-12 w-full rounded-2xl" onClick={() => setJoined(true)}>
-              {joined ? 'Zoom link ready' : 'Join Zoom meeting'}
+            <Button
+              className="min-h-12 w-full rounded-2xl"
+              disabled={!canJoin}
+              onClick={() => setJoined(true)}
+            >
+              {joined ? `${meetingPlatform} link ready` : `Join ${meetingPlatform} meeting`}
               {!joined && <ChevronDown aria-hidden="true" data-icon="inline-end" />}
             </Button>
+            {!canJoin && <p className="text-center text-xs text-muted-foreground">Add the meeting link and passcode to continue.</p>}
           </CardContent>
         </Card>
 
