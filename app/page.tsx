@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge'
 import { Calendar } from '@/components/ui/calendar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 type Platform = 'Android' | 'iOS' | 'Windows' | 'macOS'
@@ -122,22 +123,31 @@ export default function Page() {
 
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium" htmlFor="meeting-date">Meeting date</label>
-              <div className="rounded-2xl border border-border bg-background p-2">
-                <Calendar
-                  aria-label="Choose meeting date"
-                  id="meeting-date"
-                  mode="single"
-                  selected={meetingDate}
-                  onSelect={(date) => {
-                    if (date) {
-                      setMeetingDate(date)
-                      setJoined(false)
-                    }
-                  }}
-                  disabled={{ before: new Date() }}
-                  className="mx-auto w-full"
-                />
-              </div>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button id="meeting-date" variant="outline" className="min-h-14 w-full justify-between rounded-2xl px-4 text-left font-normal">
+                    <span className="flex items-center gap-3">
+                      <CalendarDays aria-hidden="true" className="text-muted-foreground" />
+                      {format(meetingDate, 'EEE, MMM d, yyyy')}
+                    </span>
+                    <ChevronDown aria-hidden="true" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent align="start" className="w-auto p-0">
+                  <Calendar
+                    aria-label="Choose meeting date"
+                    mode="single"
+                    selected={meetingDate}
+                    onSelect={(date) => {
+                      if (date) {
+                        setMeetingDate(date)
+                        setJoined(false)
+                      }
+                    }}
+                    disabled={{ before: new Date() }}
+                  />
+                </PopoverContent>
+              </Popover>
               <p className="text-xs text-muted-foreground">Selected: {format(meetingDate, 'EEEE, MMM d, yyyy')}</p>
             </div>
 
