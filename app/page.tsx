@@ -9,7 +9,6 @@ import { useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Calendar } from '@/components/ui/calendar'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -105,13 +104,14 @@ export default function Page() {
           <Badge variant="secondary">Today</Badge>
         </header>
 
-        <Card className="rounded-3xl shadow-sm">
-          <CardHeader className="gap-2 p-5 sm:p-6">
+        <section aria-labelledby="meeting-title" className="flex flex-col gap-5 border-y border-border py-5">
+          <header className="flex flex-col gap-2">
             <Badge className="w-fit" variant="outline">Next meeting</Badge>
-            <CardTitle className="text-2xl tracking-tight text-balance">Design sync with the product team</CardTitle>
-            <CardDescription className="leading-6">Choose your OS to open Zoom and your calendar with the right native flow.</CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-5 p-5 pt-0 sm:p-6 sm:pt-0">
+            <h1 id="meeting-title" className="text-2xl font-semibold tracking-tight text-balance">Design sync with the product team</h1>
+            <p className="leading-6 text-muted-foreground">Choose your OS to open Zoom and your calendar with the right native flow.</p>
+          </header>
+
+          <div className="flex flex-col gap-5">
             <div className="flex items-center justify-between rounded-2xl bg-muted p-4">
               <div className="flex items-center gap-3">
                 <CalendarDays aria-hidden="true" className="text-muted-foreground" />
@@ -307,8 +307,8 @@ export default function Page() {
                   : 'Add the meeting link and passcode to continue.'}
               </p>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </section>
 
         <p className="px-2 text-center text-xs leading-5 text-muted-foreground">Your selection only controls how the meeting opens on this device.</p>
       </section>
