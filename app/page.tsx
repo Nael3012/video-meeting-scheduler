@@ -1,9 +1,8 @@
 'use client'
 
-import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { format } from 'date-fns'
-import { Bell, CalendarDays, Check, ChevronDown, ClipboardPaste, Home, Laptop, Monitor, Settings, Smartphone, Tablet, Video } from 'lucide-react'
+import { Bell, CalendarDays, Check, ChevronDown, ClipboardPaste, Home, Laptop, Link2, Monitor, Pencil, Settings, Smartphone, Tablet, UserRound, Video } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
@@ -18,6 +17,7 @@ type CalendarSync = 'Google Calendar' | 'Local Calendar'
 type MeetingPlatform = 'Zoom' | 'Google Meet' | 'Microsoft Teams'
 type RepeatOption = 'Does not repeat' | 'Every day' | 'Every week' | 'Every month'
 type ReminderOption = 'At time of meeting' | '10 minutes before' | '30 minutes before' | '1 hour before'
+type AppTab = 'home' | 'schedule' | 'alerts' | 'account'
 
 const platforms: { name: Platform; label: string; icon: typeof Smartphone }[] = [
   { name: 'Android', label: 'Android phone', icon: Smartphone },
@@ -71,6 +71,7 @@ export default function Page() {
   const [repeat, setRepeat] = useState<RepeatOption>('Does not repeat')
   const [reminder, setReminder] = useState<ReminderOption>('10 minutes before')
   const [joined, setJoined] = useState(false)
+  const [activeTab, setActiveTab] = useState<AppTab>('home')
 
   useEffect(() => {
     setIsHydrated(true)
@@ -169,6 +170,73 @@ export default function Page() {
           <Badge variant="secondary">Today</Badge>
         </header>
 
+        {activeTab === 'home' && (
+          <section aria-labelledby="overview-title" className="flex flex-col gap-3 border-y border-border py-4">
+            <header className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">Overview</p>
+                <h1 id="overview-title" className="text-base font-semibold tracking-tight">Your meeting day</h1>
+              </div>
+              <Badge variant="secondary">1 active</Badge>
+            </header>
+            <div className="flex items-center gap-3 rounded-xl bg-muted p-3">
+              <CalendarDays aria-hidden="true" className="size-4 text-muted-foreground" />
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-xs font-medium">Design sync with the product team</p>
+                <p className="text-[11px] text-muted-foreground">Today, 10:30 AM · Zoom</p>
+              </div>
+              <Badge variant="outline">24 min</Badge>
+            </div>
+            <div className="flex items-center justify-between rounded-xl border border-border p-3">
+              <div className="flex items-center gap-3">
+                <Link2 aria-hidden="true" className="size-4 text-muted-foreground" />
+                <div>
+                  <p className="text-xs font-medium">Google Calendar</p>
+                  <p className="text-[11px] text-muted-foreground">Sync is active</p>
+                </div>
+              </div>
+              <Check aria-hidden="true" className="size-4 text-muted-foreground" />
+            </div>
+            <Button className="min-h-10 w-full rounded-xl text-xs" onClick={() => setActiveTab('schedule')}>
+              <CalendarDays aria-hidden="true" data-icon="inline-start" />
+              Create new schedule
+            </Button>
+          </section>
+        )}
+
+        {activeTab === 'alerts' && (
+          <section aria-labelledby="alerts-title" className="flex flex-col gap-3 border-y border-border py-4">
+            <header>
+              <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">Notifications</p>
+              <h1 id="alerts-title" className="text-base font-semibold tracking-tight">Stay ahead of your meetings</h1>
+            </header>
+            <div className="flex items-start gap-3 rounded-xl bg-muted p-3">
+              <Bell aria-hidden="true" className="mt-0.5 size-4 text-muted-foreground" />
+              <div><p className="text-xs font-medium">Meeting starts in 10 minutes</p><p className="text-[11px] text-muted-foreground">Design sync with the product team</p></div>
+            </div>
+            <div className="flex items-start gap-3 rounded-xl border border-border p-3">
+              <Link2 aria-hidden="true" className="mt-0.5 size-4 text-muted-foreground" />
+              <div><p className="text-xs font-medium">Calendar account connected</p><p className="text-[11px] text-muted-foreground">Google Calendar is ready to sync.</p></div>
+            </div>
+          </section>
+        )}
+
+        {activeTab === 'account' && (
+          <section aria-labelledby="account-title" className="flex flex-col gap-3 border-y border-border py-4">
+            <header>
+              <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">Account</p>
+              <h1 id="account-title" className="text-base font-semibold tracking-tight">Calendar connections</h1>
+            </header>
+            <div className="flex items-center gap-3 rounded-xl border border-border p-3">
+              <UserRound aria-hidden="true" className="size-4 text-muted-foreground" />
+              <div className="min-w-0 flex-1"><p className="text-xs font-medium">Google Calendar</p><p className="text-[11px] text-muted-foreground">Connected and syncing</p></div>
+              <Badge variant="secondary">Active</Badge>
+            </div>
+            <Button variant="outline" className="min-h-10 w-full rounded-xl text-xs"><Settings aria-hidden="true" data-icon="inline-start" />Manage account</Button>
+          </section>
+        )}
+
+        {activeTab === 'schedule' && (
         <section aria-labelledby="meeting-title" className="flex min-w-0 flex-col gap-3 border-y border-border py-4">
           <header className="flex flex-col gap-2">
             <Badge className="w-fit" variant="outline">Next meeting</Badge>
@@ -403,27 +471,34 @@ export default function Page() {
             )}
           </div>
         </section>
+        )}
 
         <p className="px-2 text-center text-xs leading-5 text-muted-foreground">Your selection only controls how the meeting opens on this device.</p>
       </section>
 
-      <nav aria-label="Primary navigation" className="fixed inset-x-2 bottom-2 z-10 mx-auto flex h-16 max-w-md items-stretch gap-1 rounded-2xl border border-border bg-card/95 p-1 shadow-lg backdrop-blur sm:inset-x-4 sm:h-[4.5rem] sm:p-1.5">
-        <Button className="min-h-0 min-w-0 flex-1 flex-col gap-1 rounded-xl px-1 py-1.5 text-[9px] leading-none tracking-tight text-muted-foreground hover:bg-muted hover:text-foreground sm:px-2 sm:text-[10px]" variant="ghost">
-          <CalendarDays aria-hidden="true" className="size-3.5" data-icon="inline-start" />
-          <span>Plan</span>
-        </Button>
-        <Button aria-current="page" className="min-h-0 min-w-0 flex-1 flex-col gap-1 rounded-xl bg-primary/10 px-1 py-1.5 text-[9px] font-semibold leading-none tracking-tight text-primary hover:bg-primary/10 hover:text-primary sm:px-2 sm:text-[10px]" variant="ghost">
-          <Home aria-hidden="true" className="size-3.5" data-icon="inline-start" />
-          <span>Home</span>
-        </Button>
-        <Button className="min-h-0 min-w-0 flex-1 flex-col gap-1 rounded-xl px-1 py-1.5 text-[9px] leading-none tracking-tight text-muted-foreground hover:bg-muted hover:text-foreground sm:px-2 sm:text-[10px]" variant="ghost">
-          <Bell aria-hidden="true" className="size-3.5" data-icon="inline-start" />
-          <span>Alerts</span>
-        </Button>
-        <Button render={<Link href="/account" />} className="min-h-0 min-w-0 flex-1 flex-col gap-1 rounded-xl px-1 py-1.5 text-[9px] leading-none tracking-tight text-muted-foreground hover:bg-muted hover:text-foreground sm:px-2 sm:text-[10px]" variant="ghost">
-          <Settings aria-hidden="true" className="size-3.5" data-icon="inline-start" />
-          <span>Account</span>
-        </Button>
+      <nav aria-label="Primary navigation" className="fixed inset-x-3 bottom-3 z-10 mx-auto flex h-14 max-w-md items-stretch gap-1 rounded-2xl border border-border bg-card/95 p-1 shadow-lg backdrop-blur sm:inset-x-4 sm:h-16 sm:p-1.5">
+        {([
+          { id: 'home' as AppTab, label: 'Home', icon: Home },
+          { id: 'schedule' as AppTab, label: 'Jadwal', icon: CalendarDays },
+          { id: 'alerts' as AppTab, label: 'Pemberitahuan', icon: Bell },
+          { id: 'account' as AppTab, label: 'Akun', icon: Settings },
+        ]).map((item) => {
+          const Icon = item.icon
+          const isActive = activeTab === item.id
+          return (
+            <Button
+              key={item.id}
+              type="button"
+              aria-current={isActive ? 'page' : undefined}
+              variant="ghost"
+              onClick={() => setActiveTab(item.id)}
+              className={`min-h-0 min-w-0 flex-1 flex-col gap-1 rounded-xl px-1 py-1 text-[9px] leading-none tracking-tight sm:text-[10px] ${isActive ? 'bg-primary/10 font-semibold text-primary hover:bg-primary/10 hover:text-primary' : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`}
+            >
+              <Icon aria-hidden="true" className="size-3.5" data-icon="inline-start" />
+              <span className="max-w-full truncate">{item.label}</span>
+            </Button>
+          )
+        })}
       </nav>
     </main>
   )
