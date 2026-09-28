@@ -89,8 +89,8 @@ export default function Page() {
   const canJoin = isValidMeetingLink && passcode.trim().length > 0
 
   return (
-    <main className="min-h-screen bg-background px-3 pb-24 pt-4 text-foreground sm:px-4 sm:py-6">
-      <section className="mx-auto flex w-full max-w-md flex-col gap-5">
+    <main className="min-h-screen bg-background px-4 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-5 text-foreground sm:px-6 sm:py-6">
+      <section className="mx-auto flex w-full max-w-md min-w-0 flex-col gap-4">
         <header className="flex items-center justify-between px-1">
           <div className="flex items-center gap-3">
             <div className="flex size-10 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
@@ -104,7 +104,7 @@ export default function Page() {
           <Badge variant="secondary">Today</Badge>
         </header>
 
-        <section aria-labelledby="meeting-title" className="flex flex-col gap-5 border-y border-border py-5">
+        <section aria-labelledby="meeting-title" className="flex min-w-0 flex-col gap-4 border-y border-border py-5">
           <header className="flex flex-col gap-2">
             <Badge className="w-fit" variant="outline">Next meeting</Badge>
             <h1 id="meeting-title" className="text-2xl font-semibold tracking-tight text-balance">Design sync with the product team</h1>
