@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { format } from 'date-fns'
 import { Bell, CalendarDays, Check, ChevronDown, Home, Laptop, Monitor, Settings, Smartphone, Tablet, Video } from 'lucide-react'
@@ -325,9 +326,9 @@ export default function Page() {
           <Bell aria-hidden="true" data-icon="inline-start" />
           Alerts
         </Button>
-        <Button className="min-h-12 min-w-0 flex-1 flex-col gap-0 rounded-2xl px-0 text-[10px] tracking-tight sm:gap-1 sm:px-2 sm:text-[10px]" variant="ghost">
+        <Button render={<Link href="/account" />} className="min-h-12 min-w-0 flex-1 flex-col gap-0 rounded-2xl px-0 text-[10px] tracking-tight sm:gap-1 sm:px-2 sm:text-[10px]" variant="ghost">
           <Settings aria-hidden="true" data-icon="inline-start" />
-          More
+          Account
         </Button>
       </nav>
     </main>
