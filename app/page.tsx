@@ -1,16 +1,20 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { format } from 'date-fns'
 import { Bell, CalendarDays, Check, ChevronDown, Home, Laptop, Monitor, Settings, Smartphone, Tablet, Video } from 'lucide-react'
 import { useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
+import { Calendar } from '@/components/ui/calendar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 type Platform = 'Android' | 'iOS' | 'Windows' | 'macOS'
 type CalendarSync = 'Google Calendar' | 'Local Calendar'
+type RepeatOption = 'Does not repeat' | 'Every day' | 'Every week' | 'Every month'
+type ReminderOption = 'At time of meeting' | '10 minutes before' | '30 minutes before' | '1 hour before'
 
 const platforms: { name: Platform; label: string; icon: typeof Smartphone }[] = [
   { name: 'Android', label: 'Android phone', icon: Smartphone },
@@ -27,6 +31,9 @@ const calendarOptions: { name: CalendarSync; label: string }[] = [
 export default function Page() {
   const [platform, setPlatform] = useState<Platform>('Android')
   const [calendarSync, setCalendarSync] = useState<CalendarSync>('Google Calendar')
+  const [meetingDate, setMeetingDate] = useState<Date>(new Date())
+  const [repeat, setRepeat] = useState<RepeatOption>('Does not repeat')
+  const [reminder, setReminder] = useState<ReminderOption>('10 minutes before')
   const [joined, setJoined] = useState(false)
   const selected = platforms.find((item) => item.name === platform) ?? platforms[0]
   const PlatformIcon = selected.icon
@@ -113,11 +120,67 @@ export default function Page() {
               </Select>
             </div>
 
-            <motion.div key={`${platform}-${calendarSync}`} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="flex items-start gap-3 rounded-2xl border border-border bg-background p-4">
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium" htmlFor="meeting-date">Meeting date</label>
+              <div className="rounded-2xl border border-border bg-background p-2">
+                <Calendar
+                  aria-label="Choose meeting date"
+                  id="meeting-date"
+                  mode="single"
+                  selected={meetingDate}
+                  onSelect={(date) => {
+                    if (date) {
+                      setMeetingDate(date)
+                      setJoined(false)
+                    }
+                  }}
+                  disabled={{ before: new Date() }}
+                  className="mx-auto w-full"
+                />
+              </div>
+              <p className="text-xs text-muted-foreground">Selected: {format(meetingDate, 'EEEE, MMM d, yyyy')}</p>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-medium" htmlFor="repeat-meeting">Repeat</label>
+                <Select value={repeat} onValueChange={(value) => { setRepeat(value as RepeatOption); setJoined(false) }}>
+                  <SelectTrigger className="min-h-12 w-full rounded-2xl" id="repeat-meeting">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {(['Does not repeat', 'Every day', 'Every week', 'Every month'] as RepeatOption[]).map((option) => (
+                        <SelectItem key={option} value={option}>{option}</SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-medium" htmlFor="meeting-reminder">Reminder</label>
+                <Select value={reminder} onValueChange={(value) => { setReminder(value as ReminderOption); setJoined(false) }}>
+                  <SelectTrigger className="min-h-12 w-full rounded-2xl" id="meeting-reminder">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {(['At time of meeting', '10 minutes before', '30 minutes before', '1 hour before'] as ReminderOption[]).map((option) => (
+                        <SelectItem key={option} value={option}>{option}</SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <motion.div key={`${platform}-${calendarSync}-${meetingDate.toISOString()}-${repeat}-${reminder}`} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="flex items-start gap-3 rounded-2xl border border-border bg-background p-4">
               <PlatformIcon aria-hidden="true" className="mt-0.5 text-muted-foreground" />
               <div className="flex min-w-0 flex-1 flex-col gap-1">
                 <p className="text-sm font-medium">{selected.label}</p>
-                <p className="text-xs leading-5 text-muted-foreground">{calendarSync} will open with the {platform} Zoom flow.</p>
+                <p className="text-xs leading-5 text-muted-foreground">{calendarSync} will open with the {platform} Zoom flow on {format(meetingDate, 'MMM d')}.</p>
+                <p className="text-xs leading-5 text-muted-foreground">{repeat} · Reminder {reminder.toLowerCase()}.</p>
               </div>
               <Check aria-hidden="true" className="text-muted-foreground" />
             </motion.div>
