@@ -125,16 +125,15 @@ export default function Page() {
               <label className="text-sm font-medium" htmlFor="meeting-date">Meeting date</label>
               <Popover>
                 <PopoverTrigger
-                  render={
-                    <Button id="meeting-date" variant="outline" className="min-h-14 w-full justify-between rounded-2xl px-4 text-left font-normal">
-                      <span className="flex items-center gap-3">
-                        <CalendarDays aria-hidden="true" className="text-muted-foreground" />
-                        {format(meetingDate, 'EEE, MMM d, yyyy')}
-                      </span>
-                      <ChevronDown aria-hidden="true" />
-                    </Button>
-                  }
-                />
+                  id="meeting-date"
+                  className="flex min-h-14 w-full items-center justify-between rounded-2xl border border-input bg-background px-4 text-left text-sm font-normal text-foreground shadow-xs transition-colors outline-none hover:bg-accent hover:text-accent-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+                >
+                  <span className="flex items-center gap-3">
+                    <CalendarDays aria-hidden="true" className="text-muted-foreground" />
+                    {format(meetingDate, 'EEE, MMM d, yyyy')}
+                  </span>
+                  <ChevronDown aria-hidden="true" />
+                </PopoverTrigger>
                 <PopoverContent align="start" className="w-auto p-0">
                   <Calendar
                     aria-label="Choose meeting date"
