@@ -101,11 +101,11 @@ export default function Page() {
   }
 
   return (
-    <main className="min-h-screen bg-background px-4 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-5 text-foreground sm:px-6 sm:py-6">
-      <section className="mx-auto flex w-full max-w-md min-w-0 flex-col gap-4">
+    <main className="min-h-screen bg-background px-3 pb-[calc(5.5rem+env(safe-area-inset-bottom))] pt-4 text-foreground sm:px-6 sm:py-6">
+      <section className="mx-auto flex w-full max-w-md min-w-0 flex-col gap-3">
         <header className="flex items-center justify-between px-1">
-          <div className="flex items-center gap-3">
-            <div className="flex size-10 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
+          <div className="flex items-center gap-2.5">
+            <div className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
               <Video aria-hidden="true" />
             </div>
             <div>
@@ -116,15 +116,15 @@ export default function Page() {
           <Badge variant="secondary">Today</Badge>
         </header>
 
-        <section aria-labelledby="meeting-title" className="flex min-w-0 flex-col gap-4 border-y border-border py-5">
+        <section aria-labelledby="meeting-title" className="flex min-w-0 flex-col gap-3 border-y border-border py-4">
           <header className="flex flex-col gap-2">
             <Badge className="w-fit" variant="outline">Next meeting</Badge>
-            <h1 id="meeting-title" className="text-2xl font-semibold tracking-tight text-balance">Design sync with the product team</h1>
-            <p className="leading-6 text-muted-foreground">Choose your OS to open Zoom and your calendar with the right native flow.</p>
+            <h1 id="meeting-title" className="text-xl font-semibold tracking-tight text-balance">Design sync with the product team</h1>
+            <p className="text-sm leading-5 text-muted-foreground">Choose your OS to open Zoom and your calendar with the right native flow.</p>
           </header>
 
-          <div className="flex flex-col gap-5">
-            <div className="flex items-center justify-between rounded-2xl bg-muted p-4">
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center justify-between rounded-xl bg-muted p-3">
               <div className="flex items-center gap-3">
                 <CalendarDays aria-hidden="true" className="text-muted-foreground" />
                 <div>
@@ -136,9 +136,9 @@ export default function Page() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium" htmlFor="operating-system">Operating system</label>
+              <label className="text-xs font-medium" htmlFor="operating-system">Operating system</label>
               <Select value={platform} onValueChange={(value) => { setPlatform(value as Platform); setJoined(false) }}>
-                <SelectTrigger className="min-h-14 w-full rounded-2xl" id="operating-system">
+                <SelectTrigger className="min-h-12 w-full rounded-xl" id="operating-system">
                   <div className="flex items-center gap-3">
                     <PlatformIcon aria-hidden="true" />
                     <SelectValue placeholder="Choose your OS" />
@@ -160,10 +160,10 @@ export default function Page() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium" htmlFor="calendar-sync">Calendar access</label>
+              <label className="text-xs font-medium" htmlFor="calendar-sync">Calendar access</label>
               <p className="text-xs text-muted-foreground">{selectedFlow.calendar} · {selectedFlow.openLabel}</p>
               <Select value={calendarSync} onValueChange={(value) => setCalendarSync(value as CalendarSync)}>
-                <SelectTrigger className="min-h-14 w-full rounded-2xl" id="calendar-sync">
+                <SelectTrigger className="min-h-12 w-full rounded-xl" id="calendar-sync">
                   <div className="flex items-center gap-3">
                     <CalendarDays aria-hidden="true" className="text-muted-foreground" />
                     <SelectValue placeholder="Choose calendar" />
@@ -185,9 +185,9 @@ export default function Page() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium" htmlFor="meeting-platform">Meeting platform</label>
+              <label className="text-xs font-medium" htmlFor="meeting-platform">Meeting platform</label>
               <Select value={meetingPlatform} onValueChange={(value) => { setMeetingPlatform(value as MeetingPlatform); setJoined(false) }}>
-                <SelectTrigger className="min-h-14 w-full rounded-2xl" id="meeting-platform">
+                <SelectTrigger className="min-h-12 w-full rounded-xl" id="meeting-platform">
                   <div className="flex items-center gap-3">
                     <Video aria-hidden="true" className="text-muted-foreground" />
                     <SelectValue placeholder="Choose meeting platform" />
@@ -204,7 +204,7 @@ export default function Page() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium" htmlFor="meeting-link">Meeting link</label>
+              <label className="text-xs font-medium" htmlFor="meeting-link">Meeting link</label>
               <div className="relative">
                 <Input
                   id="meeting-link"
@@ -212,7 +212,7 @@ export default function Page() {
                   placeholder={selectedFlow.linkHint}
                   value={meetingLink}
                   onChange={(event) => { setMeetingLink(event.target.value); setJoined(false) }}
-                  className="min-h-14 w-full rounded-2xl px-4 pr-14"
+                  className="min-h-12 w-full rounded-xl px-3 pr-14 text-sm"
                 />
                 <Button
                   type="button"
@@ -229,7 +229,7 @@ export default function Page() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium" htmlFor="meeting-passcode">Passcode</label>
+              <label className="text-xs font-medium" htmlFor="meeting-passcode">Passcode</label>
               <div className="relative">
                 <Input
                   id="meeting-passcode"
@@ -239,7 +239,7 @@ export default function Page() {
                   placeholder="Enter meeting passcode"
                   value={passcode}
                   onChange={(event) => { setPasscode(event.target.value); setJoined(false) }}
-                  className="min-h-14 w-full rounded-2xl px-4 pr-14"
+                  className="min-h-12 w-full rounded-xl px-3 pr-14 text-sm"
                 />
                 <Button
                   type="button"
@@ -256,7 +256,7 @@ export default function Page() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium" htmlFor="meeting-date">Meeting date</label>
+              <label className="text-xs font-medium" htmlFor="meeting-date">Meeting date</label>
               <Popover>
                 <PopoverTrigger
                   id="meeting-date"
@@ -288,7 +288,7 @@ export default function Page() {
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium" htmlFor="repeat-meeting">Repeat</label>
+                <label className="text-xs font-medium" htmlFor="repeat-meeting">Repeat</label>
                 <Select value={repeat} onValueChange={(value) => { setRepeat(value as RepeatOption); setJoined(false) }}>
                   <SelectTrigger className="min-h-12 w-full rounded-2xl" id="repeat-meeting">
                     <SelectValue />
@@ -304,7 +304,7 @@ export default function Page() {
               </div>
 
               <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium" htmlFor="meeting-reminder">Reminder</label>
+                <label className="text-xs font-medium" htmlFor="meeting-reminder">Reminder</label>
                 <Select value={reminder} onValueChange={(value) => { setReminder(value as ReminderOption); setJoined(false) }}>
                   <SelectTrigger className="min-h-12 w-full rounded-2xl" id="meeting-reminder">
                     <SelectValue />
