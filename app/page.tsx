@@ -124,15 +124,17 @@ export default function Page() {
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium" htmlFor="meeting-date">Meeting date</label>
               <Popover>
-                <PopoverTrigger asChild>
-                  <Button id="meeting-date" variant="outline" className="min-h-14 w-full justify-between rounded-2xl px-4 text-left font-normal">
-                    <span className="flex items-center gap-3">
-                      <CalendarDays aria-hidden="true" className="text-muted-foreground" />
-                      {format(meetingDate, 'EEE, MMM d, yyyy')}
-                    </span>
-                    <ChevronDown aria-hidden="true" />
-                  </Button>
-                </PopoverTrigger>
+                <PopoverTrigger
+                  render={
+                    <Button id="meeting-date" variant="outline" className="min-h-14 w-full justify-between rounded-2xl px-4 text-left font-normal">
+                      <span className="flex items-center gap-3">
+                        <CalendarDays aria-hidden="true" className="text-muted-foreground" />
+                        {format(meetingDate, 'EEE, MMM d, yyyy')}
+                      </span>
+                      <ChevronDown aria-hidden="true" />
+                    </Button>
+                  }
+                />
                 <PopoverContent align="start" className="w-auto p-0">
                   <Calendar
                     aria-label="Choose meeting date"
