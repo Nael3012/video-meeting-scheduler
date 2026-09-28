@@ -351,22 +351,22 @@ export default function Page() {
         <p className="px-2 text-center text-xs leading-5 text-muted-foreground">Your selection only controls how the meeting opens on this device.</p>
       </section>
 
-      <nav aria-label="Primary navigation" className="fixed inset-x-2 bottom-2 z-10 mx-auto flex max-w-md items-center gap-0 rounded-3xl border border-border bg-card/95 p-1 shadow-lg backdrop-blur sm:inset-x-4 sm:p-2">
-        <Button className="min-h-12 min-w-0 flex-1 flex-col gap-0 rounded-2xl px-0 text-[10px] tracking-tight sm:gap-1 sm:px-2 sm:text-[10px]" variant="ghost">
+      <nav aria-label="Primary navigation" className="fixed inset-x-2 bottom-2 z-10 mx-auto flex max-w-md items-center gap-1 rounded-2xl border border-border bg-card/95 p-1.5 shadow-lg backdrop-blur sm:inset-x-4 sm:gap-1.5 sm:p-2">
+        <Button className="min-h-11 min-w-0 flex-1 flex-col gap-0.5 rounded-xl px-1 text-[10px] leading-none tracking-tight sm:gap-1 sm:px-2" variant="ghost">
           <CalendarDays aria-hidden="true" className="size-4" data-icon="inline-start" />
-          Plan
+          <span>Plan</span>
         </Button>
-        <Button aria-current="page" className="min-h-12 min-w-0 flex-1 flex-col gap-0 rounded-none px-0 text-[10px] tracking-tight sm:gap-1 sm:px-2 sm:text-[10px]" variant="ghost">
+        <Button aria-current="page" className="min-h-11 min-w-0 flex-1 flex-col gap-0.5 rounded-xl bg-muted px-1 text-[10px] leading-none tracking-tight text-foreground hover:bg-muted sm:gap-1 sm:px-2" variant="ghost">
           <Home aria-hidden="true" className="size-4" data-icon="inline-start" />
-          Home
+          <span>Home</span>
         </Button>
-        <Button className="min-h-12 min-w-0 flex-1 flex-col gap-0 rounded-2xl px-0 text-[10px] tracking-tight sm:gap-1 sm:px-2 sm:text-[10px]" variant="ghost">
+        <Button className="min-h-11 min-w-0 flex-1 flex-col gap-0.5 rounded-xl px-1 text-[10px] leading-none tracking-tight sm:gap-1 sm:px-2" variant="ghost">
           <Bell aria-hidden="true" className="size-4" data-icon="inline-start" />
-          Alerts
+          <span>Alerts</span>
         </Button>
-        <Button render={<Link href="/account" />} className="min-h-12 min-w-0 flex-1 flex-col gap-0 rounded-2xl px-0 text-[10px] tracking-tight sm:gap-1 sm:px-2 sm:text-[10px]" variant="ghost">
+        <Button render={<Link href="/account" />} className="min-h-11 min-w-0 flex-1 flex-col gap-0.5 rounded-xl px-1 text-[10px] leading-none tracking-tight sm:gap-1 sm:px-2" variant="ghost">
           <Settings aria-hidden="true" className="size-4" data-icon="inline-start" />
-          Account
+          <span>Account</span>
         </Button>
       </nav>
     </main>
