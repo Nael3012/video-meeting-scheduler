@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { format } from 'date-fns'
-import { Bell, CalendarDays, Check, ChevronDown, Home, Laptop, Monitor, Settings, Smartphone, Tablet, Video } from 'lucide-react'
+import { Bell, CalendarDays, Check, ChevronDown, ClipboardPaste, Home, Laptop, Monitor, Settings, Smartphone, Tablet, Video } from 'lucide-react'
 import { useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
@@ -87,6 +87,18 @@ export default function Page() {
     }
   })()
   const canJoin = isValidMeetingLink && passcode.trim().length > 0
+
+  async function pasteInto(setValue: (value: string) => void, resetJoined = true) {
+    try {
+      const value = await navigator.clipboard.readText()
+      if (value) {
+        setValue(value)
+        if (resetJoined) setJoined(false)
+      }
+    } catch {
+      // Clipboard access can be unavailable in insecure or restricted contexts.
+    }
+  }
 
   return (
     <main className="min-h-screen bg-background px-4 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-5 text-foreground sm:px-6 sm:py-6">
@@ -193,28 +205,54 @@ export default function Page() {
 
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium" htmlFor="meeting-link">Meeting link</label>
-              <Input
-                id="meeting-link"
-                type="url"
-                placeholder={selectedFlow.linkHint}
-                value={meetingLink}
-                onChange={(event) => { setMeetingLink(event.target.value); setJoined(false) }}
-                className="min-h-14 rounded-2xl px-4"
-              />
+              <div className="flex items-center gap-2">
+                <Input
+                  id="meeting-link"
+                  type="url"
+                  placeholder={selectedFlow.linkHint}
+                  value={meetingLink}
+                  onChange={(event) => { setMeetingLink(event.target.value); setJoined(false) }}
+                  className="min-h-14 min-w-0 flex-1 rounded-2xl px-4"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  aria-label="Paste meeting link"
+                  title="Paste meeting link"
+                  className="size-14 shrink-0 rounded-2xl"
+                  onClick={() => pasteInto(setMeetingLink)}
+                >
+                  <ClipboardPaste aria-hidden="true" />
+                </Button>
+              </div>
             </div>
 
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium" htmlFor="meeting-passcode">Passcode</label>
-              <Input
-                id="meeting-passcode"
-                type="text"
-                inputMode="text"
-                autoComplete="off"
-                placeholder="Enter meeting passcode"
-                value={passcode}
-                onChange={(event) => { setPasscode(event.target.value); setJoined(false) }}
-                className="min-h-14 rounded-2xl px-4"
-              />
+              <div className="flex items-center gap-2">
+                <Input
+                  id="meeting-passcode"
+                  type="text"
+                  inputMode="text"
+                  autoComplete="off"
+                  placeholder="Enter meeting passcode"
+                  value={passcode}
+                  onChange={(event) => { setPasscode(event.target.value); setJoined(false) }}
+                  className="min-h-14 min-w-0 flex-1 rounded-2xl px-4"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  aria-label="Paste passcode"
+                  title="Paste passcode"
+                  className="size-14 shrink-0 rounded-2xl"
+                  onClick={() => pasteInto(setPasscode)}
+                >
+                  <ClipboardPaste aria-hidden="true" />
+                </Button>
+              </div>
             </div>
 
             <div className="flex flex-col gap-2">
