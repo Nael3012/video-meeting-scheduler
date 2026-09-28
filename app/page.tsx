@@ -205,22 +205,22 @@ export default function Page() {
 
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium" htmlFor="meeting-link">Meeting link</label>
-              <div className="flex items-center gap-2">
+              <div className="relative">
                 <Input
                   id="meeting-link"
                   type="url"
                   placeholder={selectedFlow.linkHint}
                   value={meetingLink}
                   onChange={(event) => { setMeetingLink(event.target.value); setJoined(false) }}
-                  className="min-h-14 min-w-0 flex-1 rounded-2xl px-4"
+                  className="min-h-14 w-full rounded-2xl px-4 pr-14"
                 />
                 <Button
                   type="button"
-                  variant="outline"
+                  variant="ghost"
                   size="icon"
                   aria-label="Paste meeting link"
                   title="Paste meeting link"
-                  className="size-14 shrink-0 rounded-2xl"
+                  className="absolute right-1 top-1/2 size-12 -translate-y-1/2 rounded-xl"
                   onClick={() => pasteInto(setMeetingLink)}
                 >
                   <ClipboardPaste aria-hidden="true" />
@@ -230,7 +230,7 @@ export default function Page() {
 
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium" htmlFor="meeting-passcode">Passcode</label>
-              <div className="flex items-center gap-2">
+              <div className="relative">
                 <Input
                   id="meeting-passcode"
                   type="text"
@@ -239,15 +239,15 @@ export default function Page() {
                   placeholder="Enter meeting passcode"
                   value={passcode}
                   onChange={(event) => { setPasscode(event.target.value); setJoined(false) }}
-                  className="min-h-14 min-w-0 flex-1 rounded-2xl px-4"
+                  className="min-h-14 w-full rounded-2xl px-4 pr-14"
                 />
                 <Button
                   type="button"
-                  variant="outline"
+                  variant="ghost"
                   size="icon"
                   aria-label="Paste passcode"
                   title="Paste passcode"
-                  className="size-14 shrink-0 rounded-2xl"
+                  className="absolute right-1 top-1/2 size-12 -translate-y-1/2 rounded-xl"
                   onClick={() => pasteInto(setPasscode)}
                 >
                   <ClipboardPaste aria-hidden="true" />
