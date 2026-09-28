@@ -407,21 +407,21 @@ export default function Page() {
         <p className="px-2 text-center text-xs leading-5 text-muted-foreground">Your selection only controls how the meeting opens on this device.</p>
       </section>
 
-      <nav aria-label="Primary navigation" className="fixed inset-x-2 bottom-2 z-10 mx-auto flex max-w-md items-center gap-1 rounded-2xl border border-border bg-card/95 p-1.5 shadow-lg backdrop-blur sm:inset-x-4 sm:gap-1.5 sm:p-2">
-        <Button className="min-h-11 min-w-0 flex-1 flex-col gap-0.5 rounded-xl px-1 text-[10px] leading-none tracking-tight sm:gap-1 sm:px-2" variant="ghost">
-          <CalendarDays aria-hidden="true" className="size-4" data-icon="inline-start" />
+      <nav aria-label="Primary navigation" className="fixed inset-x-2 bottom-2 z-10 mx-auto flex h-16 max-w-md items-stretch gap-1 rounded-2xl border border-border bg-card/95 p-1 shadow-lg backdrop-blur sm:inset-x-4 sm:h-[4.5rem] sm:p-1.5">
+        <Button className="min-h-0 min-w-0 flex-1 flex-col gap-1 rounded-xl px-1 py-1.5 text-[9px] leading-none tracking-tight text-muted-foreground hover:bg-muted hover:text-foreground sm:px-2 sm:text-[10px]" variant="ghost">
+          <CalendarDays aria-hidden="true" className="size-3.5" data-icon="inline-start" />
           <span>Plan</span>
         </Button>
-        <Button aria-current="page" className="min-h-11 min-w-0 flex-1 flex-col gap-0.5 rounded-xl bg-muted px-1 text-[10px] leading-none tracking-tight text-foreground hover:bg-muted sm:gap-1 sm:px-2" variant="ghost">
-          <Home aria-hidden="true" className="size-4" data-icon="inline-start" />
+        <Button aria-current="page" className="min-h-0 min-w-0 flex-1 flex-col gap-1 rounded-xl bg-primary/10 px-1 py-1.5 text-[9px] font-semibold leading-none tracking-tight text-primary hover:bg-primary/10 hover:text-primary sm:px-2 sm:text-[10px]" variant="ghost">
+          <Home aria-hidden="true" className="size-3.5" data-icon="inline-start" />
           <span>Home</span>
         </Button>
-        <Button className="min-h-11 min-w-0 flex-1 flex-col gap-0.5 rounded-xl px-1 text-[10px] leading-none tracking-tight sm:gap-1 sm:px-2" variant="ghost">
-          <Bell aria-hidden="true" className="size-4" data-icon="inline-start" />
+        <Button className="min-h-0 min-w-0 flex-1 flex-col gap-1 rounded-xl px-1 py-1.5 text-[9px] leading-none tracking-tight text-muted-foreground hover:bg-muted hover:text-foreground sm:px-2 sm:text-[10px]" variant="ghost">
+          <Bell aria-hidden="true" className="size-3.5" data-icon="inline-start" />
           <span>Alerts</span>
         </Button>
-        <Button render={<Link href="/account" />} className="min-h-11 min-w-0 flex-1 flex-col gap-0.5 rounded-xl px-1 text-[10px] leading-none tracking-tight sm:gap-1 sm:px-2" variant="ghost">
-          <Settings aria-hidden="true" className="size-4" data-icon="inline-start" />
+        <Button render={<Link href="/account" />} className="min-h-0 min-w-0 flex-1 flex-col gap-1 rounded-xl px-1 py-1.5 text-[9px] leading-none tracking-tight text-muted-foreground hover:bg-muted hover:text-foreground sm:px-2 sm:text-[10px]" variant="ghost">
+          <Settings aria-hidden="true" className="size-3.5" data-icon="inline-start" />
           <span>Account</span>
         </Button>
       </nav>
