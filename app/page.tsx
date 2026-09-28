@@ -37,29 +37,22 @@ export default function Page() {
             <p className="mt-2 text-sm leading-6 text-muted-foreground">Choose your device so we can open Zoom and your calendar the right way.</p>
           </div>
 
-          <div className="grid grid-cols-2 gap-3" role="radiogroup" aria-label="Select operating system">
-            {platforms.map((item) => {
-              const Icon = item.icon
-              const isSelected = platform === item.name
-
-              return (
-                <motion.button
-                  key={item.name}
-                  type="button"
-                  whileTap={{ scale: 0.97 }}
-                  onClick={() => setPlatform(item.name)}
-                  role="radio"
-                  aria-checked={isSelected}
-                  className={`flex min-h-28 flex-col items-start justify-between rounded-2xl border p-4 text-left transition-colors ${isSelected ? 'border-foreground bg-foreground text-background' : 'border-border bg-background text-foreground hover:bg-muted'}`}
-                >
-                  <Icon className="size-5" aria-hidden="true" />
-                  <span>
-                    <span className="block text-sm font-medium">{item.name}</span>
-                    <span className={`mt-1 block text-xs ${isSelected ? 'text-background/70' : 'text-muted-foreground'}`}>{item.label}</span>
-                  </span>
-                </motion.button>
-              )
-            })}
+          <div className="flex flex-col gap-2">
+            <label htmlFor="operating-system" className="text-sm font-medium">
+              Operating system
+            </label>
+            <select
+              id="operating-system"
+              value={platform}
+              onChange={(event) => setPlatform(event.target.value as Platform)}
+              className="min-h-14 w-full appearance-none rounded-2xl border border-border bg-background px-4 text-sm font-medium text-foreground outline-none transition-colors focus:border-foreground focus:ring-2 focus:ring-foreground/10"
+            >
+              {platforms.map((item) => (
+                <option key={item.name} value={item.name}>
+                  {item.name} — {item.label}
+                </option>
+              ))}
+            </select>
           </div>
 
           <motion.div
