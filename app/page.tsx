@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { format } from 'date-fns'
 import { Bell, CalendarDays, Check, ChevronDown, ClipboardPaste, Home, Laptop, Monitor, Settings, Smartphone, Tablet, Video } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
 import { Calendar } from '@/components/ui/calendar'
@@ -63,13 +63,19 @@ const platformFlows: Record<Platform, { calendar: string; nativeCalendar: string
 export default function Page() {
   const [platform, setPlatform] = useState<Platform>('Android')
   const [calendarSync, setCalendarSync] = useState<CalendarSync>('Google Calendar')
+  const [isHydrated, setIsHydrated] = useState(false)
   const [meetingPlatform, setMeetingPlatform] = useState<MeetingPlatform>('Zoom')
   const [meetingLink, setMeetingLink] = useState('')
   const [passcode, setPasscode] = useState('')
-  const [meetingDate, setMeetingDate] = useState<Date>(new Date())
+  const [meetingDate, setMeetingDate] = useState<Date>(new Date(2026, 8, 28))
   const [repeat, setRepeat] = useState<RepeatOption>('Does not repeat')
   const [reminder, setReminder] = useState<ReminderOption>('10 minutes before')
   const [joined, setJoined] = useState(false)
+
+  useEffect(() => {
+    setIsHydrated(true)
+  }, [])
+
   const selected = platforms.find((item) => item.name === platform) ?? platforms[0]
   const selectedFlow = platformFlows[platform]
   const PlatformIcon = selected.icon
@@ -90,7 +96,7 @@ export default function Page() {
   const calendarTarget = calendarSync === 'Google Calendar'
     ? 'Google Calendar'
     : selectedFlow.nativeCalendar
-  const calendarActionLabel = joined ? 'Calendar event ready' : `Add to ${calendarTarget}`
+  const calendarActionLabel = !isHydrated ? 'Add to calendar' : joined ? 'Calendar event ready' : `Add to ${calendarTarget}`
 
   function buildCalendarUrl() {
     const start = new Date(meetingDate)
