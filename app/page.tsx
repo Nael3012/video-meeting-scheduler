@@ -33,6 +33,33 @@ const calendarOptions: { name: CalendarSync; label: string }[] = [
 
 const meetingPlatforms: MeetingPlatform[] = ['Zoom', 'Google Meet', 'Microsoft Teams']
 
+const platformFlows: Record<Platform, { calendar: string; nativeCalendar: string; linkHint: string; openLabel: string }> = {
+  Android: {
+    calendar: 'Google Calendar or Android Calendar',
+    nativeCalendar: 'Android Calendar',
+    linkHint: 'https://zoom.us/j/123456789',
+    openLabel: 'Open in Android',
+  },
+  iOS: {
+    calendar: 'Google Calendar or Apple Calendar',
+    nativeCalendar: 'Apple Calendar',
+    linkHint: 'https://zoom.us/j/123456789',
+    openLabel: 'Open on iPhone / iPad',
+  },
+  Windows: {
+    calendar: 'Google Calendar or Outlook Calendar',
+    nativeCalendar: 'Outlook Calendar',
+    linkHint: 'https://zoom.us/j/123456789',
+    openLabel: 'Open on Windows',
+  },
+  macOS: {
+    calendar: 'Google Calendar or Apple Calendar',
+    nativeCalendar: 'Apple Calendar',
+    linkHint: 'https://zoom.us/j/123456789',
+    openLabel: 'Open on Mac',
+  },
+}
+
 export default function Page() {
   const [platform, setPlatform] = useState<Platform>('Android')
   const [calendarSync, setCalendarSync] = useState<CalendarSync>('Google Calendar')
@@ -44,8 +71,22 @@ export default function Page() {
   const [reminder, setReminder] = useState<ReminderOption>('10 minutes before')
   const [joined, setJoined] = useState(false)
   const selected = platforms.find((item) => item.name === platform) ?? platforms[0]
+  const selectedFlow = platformFlows[platform]
   const PlatformIcon = selected.icon
-  const canJoin = meetingLink.trim().length > 0 && passcode.trim().length > 0
+  const meetingHosts: Record<MeetingPlatform, string[]> = {
+    Zoom: ['zoom.us', 'www.zoom.us'],
+    'Google Meet': ['meet.google.com'],
+    'Microsoft Teams': ['teams.microsoft.com', 'www.teams.microsoft.com'],
+  }
+  const isValidMeetingLink = (() => {
+    try {
+      const url = new URL(meetingLink.trim())
+      return url.protocol === 'https:' && meetingHosts[meetingPlatform].includes(url.hostname)
+    } catch {
+      return false
+    }
+  })()
+  const canJoin = isValidMeetingLink && passcode.trim().length > 0
 
   return (
     <main className="min-h-screen bg-background px-3 pb-24 pt-4 text-foreground sm:px-4 sm:py-6">
@@ -83,7 +124,7 @@ export default function Page() {
 
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium" htmlFor="operating-system">Operating system</label>
-              <Select value={platform} onValueChange={(value) => setPlatform(value as Platform)}>
+              <Select value={platform} onValueChange={(value) => { setPlatform(value as Platform); setJoined(false) }}>
                 <SelectTrigger className="min-h-14 w-full rounded-2xl" id="operating-system">
                   <div className="flex items-center gap-3">
                     <PlatformIcon aria-hidden="true" />
@@ -107,6 +148,7 @@ export default function Page() {
 
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium" htmlFor="calendar-sync">Calendar access</label>
+              <p className="text-xs text-muted-foreground">{selectedFlow.calendar} · {selectedFlow.openLabel}</p>
               <Select value={calendarSync} onValueChange={(value) => setCalendarSync(value as CalendarSync)}>
                 <SelectTrigger className="min-h-14 w-full rounded-2xl" id="calendar-sync">
                   <div className="flex items-center gap-3">
@@ -120,7 +162,7 @@ export default function Page() {
                       <SelectItem key={item.name} value={item.name}>
                         <span className="flex flex-col items-start gap-0.5">
                           <span>{item.name}</span>
-                          <span className="text-xs text-muted-foreground">{item.label}</span>
+                          <span className="text-xs text-muted-foreground">{item.name === 'Local Calendar' ? selectedFlow.nativeCalendar : item.label}</span>
                         </span>
                       </SelectItem>
                     ))}
@@ -153,7 +195,7 @@ export default function Page() {
               <Input
                 id="meeting-link"
                 type="url"
-                placeholder={`Paste your ${meetingPlatform} link`}
+                placeholder={selectedFlow.linkHint}
                 value={meetingLink}
                 onChange={(event) => { setMeetingLink(event.target.value); setJoined(false) }}
                 className="min-h-14 rounded-2xl px-4"
@@ -243,7 +285,7 @@ export default function Page() {
               <PlatformIcon aria-hidden="true" className="mt-0.5 text-muted-foreground" />
               <div className="flex min-w-0 flex-1 flex-col gap-1">
                 <p className="text-sm font-medium">{selected.label}</p>
-                <p className="text-xs leading-5 text-muted-foreground">{calendarSync} will open with the {platform}{' '}{meetingPlatform} flow on {format(meetingDate, 'MMM d')}.</p>
+                <p className="text-xs leading-5 text-muted-foreground">{calendarSync} will open {selectedFlow.nativeCalendar === 'Outlook Calendar' ? 'Outlook' : 'the native calendar'} with the {platform} {meetingPlatform} flow on {format(meetingDate, 'MMM d')}.</p>
                 <p className="text-xs leading-5 text-muted-foreground">{repeat} · Reminder {reminder.toLowerCase()}.</p>
               </div>
               <Check aria-hidden="true" className="text-muted-foreground" />
@@ -257,7 +299,13 @@ export default function Page() {
               {joined ? `${meetingPlatform} link ready` : `Join ${meetingPlatform} meeting`}
               {!joined && <ChevronDown aria-hidden="true" data-icon="inline-end" />}
             </Button>
-            {!canJoin && <p className="text-center text-xs text-muted-foreground">Add the meeting link and passcode to continue.</p>}
+            {!canJoin && (
+              <p className="text-center text-xs text-muted-foreground">
+                {meetingLink.trim().length > 0 && !isValidMeetingLink
+                  ? `Use a valid ${meetingPlatform} link, then add the passcode.`
+                  : 'Add the meeting link and passcode to continue.'}
+              </p>
+            )}
           </CardContent>
         </Card>
 
